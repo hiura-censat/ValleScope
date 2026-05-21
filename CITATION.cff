@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >
+  If you use ValleScope in your research, please cite it using the following metadata.
+title: "ValleScope: Context-based correspondence assignment for satellite DNA in telomere-to-telomere assemblies"
+version: "0.1.0"
+doi: "DOI"
+date-released: 2026-5-15
+authors:
+  - family-names: "Hiura"
+    given-names: "Nobuhiro"
+    github: "https://github.com/hiura-censat"
+    affiliation: "Graduate School of Medical and Dental Sciences, Institute of Science Tokyo"
+
+abstract: >
+ValleScope is a framework for assigning high-confidence assembly-to-assembly correspondences in highly repetitive arrays, including centromeric and pericentromeric α-satellite and HSat2. ValleScope does not aim to maximize continuous alignment coverage. Instead, it defines high-confidence correspondence blocks using tokenized structural contexts, and context-based assignment algorithm. The resulting ValleScope-defiened correspondence intervals can be used for comparative analysis of satellite DNA structural variation and haplotype diversity.
+repository-code: "https://github.com/hiura-censat/ValleScope"
+license: "MIT"
+keywords:
+  - satellite DNA
+  - centromere
+  - pericentromere
+  - α-satellite
+  - HSat2
+  - genomics
+  - T2T
+  - assembly-to-assembly
+

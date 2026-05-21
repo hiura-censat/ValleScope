@@ -1,0 +1,48 @@
+name: vallescope
+
+x-common: &common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: vallescope:0.1.0
+  working_dir: /work
+  user: "${UID:-0}:${GID:-0}"
+  volumes:
+    - .:/work
+
+services:
+  # 1) One-shot execution for production and CI
+  runner:
+    <<: *common
+    entrypoint: ["micromamba","run","-n","base","vallescope"]
+
+  # 2) Persistent debugging environment
+  dev:
+    <<: *common
+    tty: true
+    stdin_open: true
+    command: ["bash", "-lc", "sleep infinity"]
+
+  # 3) JBrowse management server exposed externally
+  jbrowse:
+    <<: *common
+    user: "0:0"
+    entrypoint:
+      - bash
+      - -lc
+      - |
+        set -Eeuo pipefail
+        echo "PATH=$PATH"
+        which jbrowse; jbrowse --version
+        mkdir -p /work/jbrowse_out
+        if [ ! -e /work/jbrowse_out/index.html ]; then
+          jbrowse create /work/jbrowse_out --force
+        fi
+        cd /work/jbrowse_out
+        exec jbrowse admin-server --port 3000 .
+    ports:
+      - "3000:3000"
+      - "4000:4000"
+    restart: unless-stopped
+
+

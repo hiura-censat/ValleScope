@@ -1,0 +1,7 @@
+# workflows/Snakefile
+configfile: "workflows/config.yaml"
+#include: "rules/1_t2t_fasta_maker.smk"
+#include: "rules/Snakefile_t2tfa_only.smk"
+#include: "rules/2_censat_anno.smk"
+include: "rules/3_anchor_and_plot.smk"
+include: "rules/4_plot.smk"

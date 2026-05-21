@@ -1,0 +1,64 @@
+[project]
+name = "vallescope"
+version = "0.1.0"
+description = "ValleScope: Context-based correspondence assignment for satellite DNA in telomere-to-telomere assemblies"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "typer>=0.12",
+  "rich>=13",
+  "snakemake>=7,<9",
+  "importlib-resources; python_version<'3.12'",
+]
+
+[project.scripts]
+vallescope = "vallescope.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vallescope = [
+  "resources/workflows/**",
+  "resources/tools/**",
+  "resources/templates/**",
+  "resources/profiles/**",
+]
+
+[tool.setuptools.exclude-package-data]
+vallescope = [
+  "resources/**/__pycache__/*",
+]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = false
+follow_imports = "silent"
+warn_unused_ignores = true
+disallow_untyped_defs = false
+check_untyped_defs = false
+exclude = [
+  '^src/vallescope/resources/tools/.*\.py$',
+]
+
+[[tool.mypy.overrides]]
+module = [
+  "edlib",
+  "matplotlib",
+  "matplotlib.*",
+  "pandas",
+  "pandas.*",
+  "numpy",
+  "numpy.*",
+  "scipy",
+  "scipy.*",
+  "pysam",
+  "pyBigWig",
+  "typer",
+  "typer.*",
+  "rich",
+  "rich.*",
+  "importlib_resources",
+  "importlib_resources.*",
+]
+ignore_missing_imports = true
