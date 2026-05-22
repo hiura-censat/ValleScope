@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/vallescope)
+<!-- ![PyPI](https://img.shields.io/pypi/v/vallescope) -->
 ![License](https://img.shields.io/github/license/hiura-censat/ValleScope)
 ![CI](https://github.com/hiura-censat/ValleScope/actions/workflows/ci.yml/badge.svg)
 
@@ -45,7 +45,9 @@ docker compose up -d
 ```
 
 ### Option B: Local installation (advanced)
-- Manually install:
+
+Docker is recommended for full reproducibility. Local installation is intended for advanced users who can manually install external command-line dependencies.
+
 ```bash
 git clone https://github.com/hiura-censat/ValleScope.git
 cd ValleScope
@@ -56,7 +58,20 @@ conda activate vallescope_dev
 python -m pip install -e .
 vallescope --help
 ```
-- Docker is highly recommended for full reproducibility.
+
+For local installation, `tandem_aligner` from UniAligner must be installed separately and available in your `PATH`.
+
+```bash
+git clone https://github.com/seryrzu/unialigner.git
+cd unialigner
+git checkout c5a1eecab7bd17485a0fe3422684409c3e884f31
+cd tandem_aligner
+make -j"$(nproc)"
+ln -sf "$PWD/build/bin/tandem_aligner" "$CONDA_PREFIX/bin/tandem_aligner"
+command -v tandem_aligner
+```
+
+If local compilation of `tandem_aligner` fails, please use the Docker installation, which builds the pinned dependency automatically.
 
 ---
 
@@ -111,7 +126,7 @@ The main output files are:
 | `*.masked.freq.region.png` | Regional visualization of the GenMap-derived k-mer frequency profile. |
 | `*.masked.freq_smooth.bw` | Smoothed BigWig signal generated from the GenMap-derived frequency profile. |
 
-For most users, the key files to inspect first are `output.syri_ready.paf`.
+For most users, the key file to inspect first is `output.syri_ready.paf`.
 
 ---
 
