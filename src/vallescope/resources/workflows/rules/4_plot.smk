@@ -275,16 +275,7 @@ rule patch_paf_for_syri:
         paf = syri_ready_paf_path(),
     params:
         script = _tool("paf_gap_patch_unialigner_to_syri_paf.py"),
-        unialigner_bin = str(
-            (
-                _tool_path("paf_gap_patch_unialigner_to_syri_paf.py").parent
-                / "unialigner"
-                / "tandem_aligner"
-                / "build"
-                / "bin"
-                / "tandem_aligner"
-            ).resolve()
-        ),
+        unialigner_bin = "tandem_aligner",
         flank = 10000,
         max_gapfill = 70000,
         keep_overlap = 200,
@@ -298,9 +289,13 @@ rule patch_paf_for_syri:
             raise ValueError(f"patch_paf_for_syri expects exactly 2 FASTA files, got {len(fas)}: {fas}")
 
         unialigner_cmd = (
-            f'tmpdir="${{OUT}}.dir"; rm -rf "$tmpdir"; mkdir -p "$tmpdir"; '
+            f'tmpdir="{{OUT}}.dir"; rm -rf "$tmpdir"; mkdir -p "$tmpdir"; '
+            f'log="{{OUT}}.log"; '
+            f'echo "[REF] {{REF}}" > "$log"; '
+            f'echo "[QRY] {{QRY}}" >> "$log"; '
+            f'echo "[OUT] {{OUT}}" >> "$log"; '
             f'"{params.unialigner_bin}" --first "{{REF}}" --second "{{QRY}}" -o "$tmpdir" '
-            f'>/dev/null 2>&1 && cp "$tmpdir/cigar.txt" "{{OUT}}"'
+            f'>> "$log" 2>&1 && cp "$tmpdir/cigar.txt" "{{OUT}}"'
         )
 
         shell(r"""
